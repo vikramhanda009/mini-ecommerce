@@ -10,7 +10,7 @@ import {
 } from "../features/products/productsSlice";
 import ProductCard, { ProductCardSkeleton } from "../components/ProductCard";
 const SIZES = ["XS", "S", "M", "L", "XL", "XXL"];
-const PAGE_SIZE = 24;
+const PAGE_SIZE = 12;
 
 // ─── Styled Components ────────────────────────────────────────────────────────
 
@@ -30,7 +30,7 @@ const Hero = styled.div`
     position: absolute;
     bottom: -1px;
     left: 0;
-    right: 0;
+    right: 0; 
     height: 40px;
     background: #f7f4ef;
     clip-path: ellipse(55% 100% at 50% 100%);
