@@ -18,8 +18,7 @@ A production-ready mini e-commerce clothing application built with **ReactJS + T
 ---
 
 ## 🚀 Live Demo
-
-> _(Add your deployed link here — e.g. Vercel / Netlify)_
+https://mini-ecommerce-three-psi.vercel.app
 
 ---
 
