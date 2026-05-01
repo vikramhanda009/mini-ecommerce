@@ -46,12 +46,13 @@ export const fetchProducts = createAsyncThunk(
     const fakeData: any[] = await fakeRes.json();
     const dummyData = await dummyRes.json();
 
+    // ✅ Normalize fake API
     const fakeProducts: Product[] = fakeData
       .filter((p) => CLOTHING_CATEGORIES.includes(p.category))
       .map((p, i) => ({
         id: p.id,
-        uid: `${p.id}-${i}`,
-        title: `${p.title} ${i + 1}`,
+        uid: `fake-${p.id}-${i}`,
+        title: p.title+`-${p.id}-${i}`, // ✅ clean title
         price: p.price,
         description: p.description.slice(0, 120) + "...",
         category: p.category,
@@ -63,12 +64,13 @@ export const fetchProducts = createAsyncThunk(
         size: SIZES[i % SIZES.length],
       }));
 
+    // ✅ Normalize dummy API
     const dummyProducts: Product[] = dummyData.products
       .filter((p: any) => CLOTHING_CATEGORIES.includes(p.category))
       .map((p: any, i: number) => ({
         id: 1000 + p.id,
-        uid: `${1000 + p.id}-${i}`,
-        title: `${p.title} ${i + 1}`,
+        uid: `dummy-${p.id}-${i}`,
+        title: p.title+`-${p.id}-${i}`, // ✅ clean title
         price: p.price,
         description: p.description.slice(0, 120) + "...",
         category: p.category,
@@ -81,12 +83,16 @@ export const fetchProducts = createAsyncThunk(
       }));
 
     const all = [...fakeProducts, ...dummyProducts];
-    const extended = Array(7).fill(all).flat();
 
-    return extended.map((p, i) => ({
-      ...p,
-      uid: `${p.id}-${i}-${p.title}`,
-    }));
+    // ✅ Create large dataset WITHOUT duplicating references
+    const extended = Array.from({ length: 7 }, (_, batchIndex) =>
+      all.map((p, index) => ({
+        ...p,
+        uid: `${p.uid}-${batchIndex}-${index}`, // ✅ guaranteed unique
+      }))
+    ).flat();
+
+    return extended;
   }
 );
 
@@ -113,6 +119,7 @@ const productsSlice = createSlice({
     builder
       .addCase(fetchProducts.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.loading = false;
@@ -120,7 +127,7 @@ const productsSlice = createSlice({
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || "Error";
+        state.error = action.error.message || "Something went wrong";
       });
   },
 });

@@ -260,7 +260,7 @@ const ProductDetailPage: React.FC = () => {
   return (
     <PageWrap>
       <Nav>
-        <Brand to="/">DRIP SHOP</Brand>
+        <Brand to="/">HANDA STORE</Brand>
         <Separator>/</Separator>
         <BackLink to="/">← Back to Products</BackLink>
       </Nav>

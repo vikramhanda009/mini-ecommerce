@@ -9,6 +9,7 @@ import {
   selectFilteredSortedProducts,
 } from "../features/products/productsSlice";
 import ProductCard, { ProductCardSkeleton } from "../components/ProductCard";
+import { resetFilters } from "../features/products/productsSlice";
 const SIZES = ["XS", "S", "M", "L", "XL", "XXL"];
 const PAGE_SIZE = 12;
 
@@ -18,7 +19,22 @@ const PageWrap = styled.div`
   min-height: 100vh;
   background: #f7f4ef;
 `;
+const ResetBtn = styled.button`
+  padding: 10px 18px;
+  border-radius: 12px;
+  border: 2px solid #e07b39;
+  background: transparent;
+  color: #e07b39;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s;
 
+  &:hover {
+    background: #e07b39;
+    color: #fff;
+  }
+`;
 const Hero = styled.div`
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
   padding: 56px 32px 48px;
@@ -183,7 +199,7 @@ const categories = useMemo(() => {
   return (
     <PageWrap>
       <Hero>
-        <HeroTitle>DRIP SHOP</HeroTitle>
+        <HeroTitle>HANDA STORE</HeroTitle>
         <HeroSub>Premium styles · {items.length}+ products</HeroSub>
       </Hero>
 
@@ -211,11 +227,17 @@ const categories = useMemo(() => {
             <option key={s} value={s}>{s}</option>
           ))}
         </Select>
+        {(searchQuery || selectedCategory || selectedSize) && (
+          <ResetBtn onClick={() => dispatch(resetFilters())}>
+            Reset
+          </ResetBtn>
+        )}
         {!loading && (
           <ResultCount>
             {filtered.length} product{filtered.length !== 1 ? "s" : ""}
           </ResultCount>
         )}
+        
       </FiltersBar>
 
       {error && (

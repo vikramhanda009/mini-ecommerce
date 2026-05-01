@@ -1,4 +1,4 @@
-# DRIP SHOP – Mini E-Commerce App
+# HANDA STORE – Mini E-Commerce App
 
 A ReactJS + TypeScript mini e-commerce application.
 
